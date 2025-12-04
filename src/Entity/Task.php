@@ -33,10 +33,6 @@ class Task
     #[ORM\JoinColumn(nullable: false)]
     private ?Cat $cat_task = null;
 
-    public function __construct()
-    {
-        $this->tasks = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {

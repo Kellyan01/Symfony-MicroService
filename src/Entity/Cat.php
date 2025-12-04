@@ -22,6 +22,11 @@ class Cat
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'cat_task')]
     private Collection $tasks;
 
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,7 +56,7 @@ class Cat
     {
         if (!$this->tasks->contains($task)) {
             $this->tasks->add($task);
-            $task->setUserTask($this);
+            $task->setCatTask($this);
         }
 
         return $this;
@@ -61,8 +66,8 @@ class Cat
     {
         if ($this->tasks->removeElement($task)) {
             // set the owning side to null (unless already changed)
-            if ($task->getUserTask() === $this) {
-                $task->setUserTask(null);
+            if ($task->getCatTask() === $this) {
+                $task->setCatTask(null);
             }
         }
 
