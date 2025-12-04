@@ -17,14 +17,14 @@ final class TaskController extends AbstractController
         $tasks = $task->findAll();
 
         //Sérialisation des données
-        $data = $serializer->serialize($tasks, 'json');
+        $data = $serializer->normalize($tasks, 'json',['groups'=>'task:readAll']);
 
-        dd($data);
+        //dd($data);
 
         return $this->json([
             'message' => 'Welcome to your new controller!',
             'path' => 'src/Controller/TaskController.php',
-            "tasks" => $tasks,
+            "tasks" => $data,
         ]);
     }
 }
