@@ -15,11 +15,22 @@ final class UserController extends AbstractController
     {
         $users = $user->findAll();
         $data = $serializer->normalize($users, 'json',['groups'=>'user_task:readAll']);
-        dd($data);
+        //dd($data);
+        if(empty($data)){
+            return $this->json([
+                'message' => 'No users found',
+                'path' => 'src/Controller/UserController.php',
+            ], 404);
+        }
+        // return $this->json([
+        //     'message' => 'Welcome to your new controller!',
+        //     'path' => 'src/Controller/UserController.php',
+        //     'users' => $data,
+        // ]);
+
         return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/UserController.php',
-            'users' => $data,
-        ]);
+            'message'=>'Requête Traitée',
+            'content' => $user->findAll()
+        ],200,[],['groups'=>'user_task:readAll']);
     }
 }

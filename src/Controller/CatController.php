@@ -18,9 +18,6 @@ final class CatController extends AbstractController
     #[Route('/cat', name: 'app_cat')]
     public function index(CatRepository $cat): JsonResponse
     {
-        $cats = $cat->findAll();
-        $data = $serializer->normalize($cats, 'json',['groups'=>'cat:readAll']);
-        dd($data);
-        //return $this->json($this->cat->findAll(),200,[],['groups' => 'cat:readAll']);
+        return $this->json($cat->findAll(),200,[],['groups' => 'cat:readAll']);
     }
 }
