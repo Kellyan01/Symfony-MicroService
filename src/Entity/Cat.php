@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\CatRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: CatRepository::class)]
+class Cat
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $name_cat = null;
+
+    /**
+     * @var Collection<int, Task>
+     */
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'cat_task')]
+    private Collection $tasks;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNameCat(): ?string
+    {
+        return $this->name_cat;
+    }
+
+    public function setNameCat(string $name_cat): static
+    {
+        $this->name_cat = $name_cat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): static
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setUserTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): static
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getUserTask() === $this) {
+                $task->setUserTask(null);
+            }
+        }
+
+        return $this;
+    }
+}
