@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -14,24 +15,30 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups (['user:readAll','user_task:readAll','task:readAll'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups (['user:readAll','user_task:readAll'])]
     private ?string $name_user = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups (['user:readAll','user_task:readAll'])]
     private ?string $first_name_user = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups (['user:readAll','user_task:readAll'])]
     private ?string $login_user = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups (['user:readAll','user_task:readAll'])]
     private ?string $mdp_user = null;
 
     /**
      * @var Collection<int, Task>
      */
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'user_task')]
+    #[Groups ('user_task:readAll')]
     private Collection $tasks;
 
     public function __construct()

@@ -15,25 +15,27 @@ class Task
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('task:readAll')]
+    #[Groups(['task:readAll','user_task:readAll','cat:readAll'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups('task:readAll')]
+    #[Groups(['task:readAll','user_task:readAll','cat:readAll'])]
     private ?string $name_task = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups('task:readAll')]
+    #[Groups(['task:readAll','user_task:readAll'])]
     private ?string $content_task = null;
 
     #[ORM\Column]
-    #[Groups('task:readAll')]
+    #[Groups(['task:readAll','user_task:readAll'])]
     private ?\DateTimeImmutable $date_task = null;
 
+    #[Groups(['task:readAll'])]
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user_task = null;
 
+    #[Groups(['task:readAll'])]
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Cat $cat_task = null;
