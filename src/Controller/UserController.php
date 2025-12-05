@@ -43,7 +43,7 @@ final class UserController extends AbstractController
     }
 
     #[Route('/create', name:'app_user_create', methods:['POST'])]
-    public function indexCreate(UserRepository $userRepo, Request $request):JsonResponse{
+    public function indexCreate(Request $request):JsonResponse{
         
         //Je récupère les données de la requête
         $data = $request->getContent();
@@ -64,6 +64,6 @@ final class UserController extends AbstractController
         $this->em->flush();
 
         //Message de Validation
-        return $this->json(["mdp"=>$user->getMdpUser()]);
+        return $this->json(["message"=>$user->getLogin()." a été enregistré avec succès !","code réponse" => 200], 200);
     }
 }
